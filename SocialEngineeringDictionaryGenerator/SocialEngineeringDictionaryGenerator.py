@@ -77,7 +77,6 @@ def generate_dictionary():
     global __start_time__
     profile = get_infomation()
     __start_time__ = time.time()
-    print(profile)
     res_list = []
     # 对生日和名字进行预处理（符合中国人习惯）
     for name in profile["victim_name"]:
@@ -105,17 +104,7 @@ def generate_dictionary():
                                         mix_list.append(pet)
                                     if word != "":
                                         mix_list.append(word)
-                                    # print("name:"+name)
-                                    # print("nickname:"+nickname)
-                                    # print("birthday:"+birthday)
-                                    # print("relative_name:"+relative_name)
-                                    # print("relative_birthday:"+relative_birthday)
-                                    # print("pet:"+pet)
-                                    # print("company:"+company)
-                                    # print("word:"+word)
-                                    # print(mix_list)
                                     res_list.append(mix(mix_list))
-                                    # res_list.append(mix([name,nickname,birthday,relative_name,relative_birthday,pet,company,word]))
 
     index = 1
     while(os.path.exists("../result/SocialEngineeringDictionaryGenerator/"+str(index)+".txt")):
@@ -132,16 +121,9 @@ def generate_dictionary():
             for password in list:
                 f.write(password+"\n")
 
-    print(
-        "[+] 文件已经保存到 \033[1;31m"
-        + str(Path.cwd().parent) + "\\result\\SocialEngineeringDictionaryGenerator\\"+filename
-        + "\033[1;m, 有 \033[1;31m"
-        + str(length)
-        + " 条\033[1;m"
-        + "\033[1;m, 用时 \033[1;31m"
-        + str(time.time()-__start_time__)
-        + "\033[1;m。"
-    )
+    print("[+] 文件已经保存到 \033[1;31m" + str(Path.cwd().parent) + "\\result\\SocialEngineeringDictionaryGenerator\\"+filename)
+    print("\033[1;m[+] 有 \033[1;31m" + str(length)+"\033[1;m 条")
+    print("[+] 用时 \033[1;31m" +str(time.time()-__start_time__) +"\033[1;m 秒")
 
 def main():
     parser = get_parser()
