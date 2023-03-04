@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 @author yumu
+@version 1.0.2
 """
 import argparse
 
@@ -12,7 +13,7 @@ from pathlib import Path
 
 def get_parser():
     parser = argparse.ArgumentParser(description="Social Engineering Dictionary Generator")
-    group = parser.add_mutually_exclusive_group(required=False)
+    group = parser.add_argument_group()
     group.add_argument(
         "-v",
         "--version",
@@ -25,10 +26,23 @@ def get_parser():
         action="store_true",
         help="生成密码字典"
     )
+    group.add_argument(
+        "-on",
+        "--outputname",
+        action="store",
+        help="指定输出字典文件名",
+        nargs=1,
+    )
+    group.add_argument(
+        "-op",
+        "--outputpath",
+        action="store",
+        help="指定输出字典路径",
+    )
     return parser
 
 def show_version():
-    print("\r\n	\033[1;31m[ SEDG ]  " + __version__ + "\033[1;m\r\n")
+    print("\r\n	\033[1;31m[ 社工字典生成器 ]  " + __version__ + "\033[1;m\r\n")
 
 def check_whippletree(birthday:list)->bool:
     if birthday[0] == "":
@@ -73,7 +87,7 @@ def mix(list:list):
             res_list.append(list[index]+item)
     return res_list
 
-def generate_dictionary():
+def generate_dictionary(outputpath,outputname):
     global __start_time__
     profile = get_infomation()
     __start_time__ = time.time()
@@ -107,21 +121,32 @@ def generate_dictionary():
                                     res_list.append(mix(mix_list))
 
     index = 1
-    while(os.path.exists("../result/SocialEngineeringDictionaryGenerator/"+str(index)+".txt")):
-        index +=1
+    default_path = "../result/SocialEngineeringDictionaryGenerator/"
+    print(outputpath)
+    print(outputname)
+    if outputpath!=None:
+        default_path = outputpath
+        if default_path[-1] != "/":
+            default_path += "/"
 
-    if not os.path.exists("../result/SocialEngineeringDictionaryGenerator/"):
-        os.makedirs("../result/SocialEngineeringDictionaryGenerator/")
+    print(default_path)
+    if not os.path.exists(default_path):
+        os.makedirs(default_path)
 
+    if outputname==None:
+        while(os.path.exists(default_path+str(index)+".txt")):
+            index +=1
+        full_path = default_path+str(index)+".txt"
+    else:
+        full_path = default_path+outputname[0]
     length = 0
-    filename = str(index)+".txt"
-    with open("../result/SocialEngineeringDictionaryGenerator/"+filename,"w") as f:
+    with open(full_path,"w") as f:
         for list in res_list:
             length += len(list)
             for password in list:
                 f.write(password+"\n")
 
-    print("[+] 文件已经保存到 \033[1;31m" + str(Path.cwd().parent) + "\\result\\SocialEngineeringDictionaryGenerator\\"+filename)
+    print("[+] 文件已经保存到 \033[1;31m" + os.path.abspath(full_path))
     print("\033[1;m[+] 有 \033[1;31m" + str(length)+"\033[1;m 条")
     print("[+] 用时 \033[1;31m" +str(time.time()-__start_time__) +"\033[1;m 秒")
 
@@ -131,7 +156,7 @@ def main():
     if args.version:
         show_version()
     elif args.generate:
-        generate_dictionary()
+        generate_dictionary(args.outputpath,args.outputname)
     else:
         parser.print_help()
 
