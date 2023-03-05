@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 @author yumu
-@version 1.0.2
+@version 1.0.3
 """
 import argparse
 
-__version__ = "1.0.0"
-__start_time__ = 0
+__version__ = "1.0.3"
 import os.path
 import time
 from pathlib import Path
@@ -38,6 +37,12 @@ def get_parser():
         "--outputpath",
         action="store",
         help="指定输出字典路径",
+    )
+    group.add_argument(
+        "-m",
+        "--mode",
+        action="store",
+        help="指定模式，详见文档"
     )
     return parser
 
@@ -87,12 +92,31 @@ def mix(list:list):
             res_list.append(list[index]+item)
     return res_list
 
-def generate_dictionary(outputpath,outputname):
-    global __start_time__
-    profile = get_infomation()
-    __start_time__ = time.time()
+def split_birthday(birthdays):
     res_list = []
-    # 对生日和名字进行预处理（符合中国人习惯）
+    for birthday in birthdays:
+        if birthday == "":
+            res_list.append(birthday)
+            break
+        else:
+            temp_list = birthday.split("-")
+            full_year_fix_birthday = mix(temp_list)
+            for i in temp_list:
+                if len(i) == 4:
+                    year = i
+                    temp_list.remove(year)
+                    temp_list.append(year[-2:])
+                    simple_year_fix_birthday = mix(temp_list)
+                    for i in simple_year_fix_birthday:
+                        res_list.append(i)
+
+            for i in full_year_fix_birthday:
+                res_list.append(i)
+
+    return res_list
+
+def simple_cycle_generate(profile):
+    res_list = []
     for name in profile["victim_name"]:
         for nickname in profile["nickname"]:
             for birthday in profile["birthday"]:
@@ -107,10 +131,12 @@ def generate_dictionary(outputpath,outputname):
                                     if nickname != "":
                                         mix_list.append(nickname)
                                     if birthday != "":
+                                        birthday = birthday.replace("-", "")
                                         mix_list.append(birthday)
                                     if relative_name != "":
                                         mix_list.append(relative_name)
                                     if relative_birthday != "":
+                                        relative_birthday = relative_birthday.replace("-", "")
                                         mix_list.append(relative_birthday)
                                     if company != "":
                                         mix_list.append(company)
@@ -119,17 +145,65 @@ def generate_dictionary(outputpath,outputname):
                                     if word != "":
                                         mix_list.append(word)
                                     res_list.append(mix(mix_list))
+    return res_list
+
+def mixed_cycle_generate(profile):
+    res_list = []
+    mix_list = []
+    for name in profile["victim_name"]:
+        if name != "":
+            mix_list.append(name)
+    for nickname in profile["nickname"]:
+        if nickname != "":
+            mix_list.append(nickname)
+    for birthday in profile["birthday"]:
+        if birthday != "":
+            birthday = birthday.replace("-", "")
+            mix_list.append(birthday)
+    for relative_name in profile["relative_name"]:
+        if relative_name != "":
+            mix_list.append(relative_name)
+    for relative_birthday in profile["relative_birthday"]:
+        if relative_birthday != "":
+            relative_birthday = relative_birthday.replace("-", "")
+            mix_list.append(relative_birthday)
+    for pet in profile["pet"]:
+        if pet != "":
+            mix_list.append(pet)
+    for company in profile["company"]:
+        if company != "":
+            mix_list.append(company)
+    for word in profile["words"]:
+        if word != "":
+            mix_list.append(word)
+    res_list.append(mix(mix_list))
+    return res_list
+
+def generate_dictionary(outputpath,outputname,mode):
+    profile = get_infomation()
+    start_time = time.time()
+    res_list = []
+    if mode == "1":
+        profile["birthday"] = split_birthday(profile["birthday"])
+        profile["relative_birthday"] = split_birthday(profile["relative_birthday"])
+        res_list = simple_cycle_generate(profile)
+    elif mode == "2":
+        res_list = mixed_cycle_generate(profile)
+    elif mode == "3":
+        profile["birthday"] = split_birthday(profile["birthday"])
+        profile["relative_birthday"] = split_birthday(profile["relative_birthday"])
+        res_list = mixed_cycle_generate(profile)
+    else:
+        res_list = simple_cycle_generate(profile)
 
     index = 1
     default_path = "../result/SocialEngineeringDictionaryGenerator/"
-    print(outputpath)
-    print(outputname)
+
     if outputpath!=None:
         default_path = outputpath
         if default_path[-1] != "/":
             default_path += "/"
 
-    print(default_path)
     if not os.path.exists(default_path):
         os.makedirs(default_path)
 
@@ -148,7 +222,7 @@ def generate_dictionary(outputpath,outputname):
 
     print("[+] 文件已经保存到 \033[1;31m" + os.path.abspath(full_path))
     print("\033[1;m[+] 有 \033[1;31m" + str(length)+"\033[1;m 条")
-    print("[+] 用时 \033[1;31m" +str(time.time()-__start_time__) +"\033[1;m 秒")
+    print("[+] 用时 \033[1;31m" +str(time.time()-start_time) +"\033[1;m 秒")
 
 def main():
     parser = get_parser()
@@ -156,7 +230,7 @@ def main():
     if args.version:
         show_version()
     elif args.generate:
-        generate_dictionary(args.outputpath,args.outputname)
+        generate_dictionary(args.outputpath,args.outputname,args.mode)
     else:
         parser.print_help()
 
