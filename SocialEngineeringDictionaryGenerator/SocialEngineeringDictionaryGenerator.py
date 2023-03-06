@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 @author yumu
-@version 1.0.3
+@version 1.0.4
 """
 import argparse
 
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 import os.path
 import time
 from pathlib import Path
@@ -43,6 +43,12 @@ def get_parser():
         "--mode",
         action="store",
         help="指定模式，详见文档"
+    )
+    group.add_argument(
+        "-l",
+        "--level",
+        action="store",
+        help="指定生日拆分粒度，详见文档"
     )
     return parser
 
@@ -92,19 +98,32 @@ def mix(list:list):
             res_list.append(list[index]+item)
     return res_list
 
-def split_birthday(birthdays):
+def split_birthday(birthdays,level):
+    """
+
+    :param birthdays:生日列表
+    :param level: 表示生日拆分粒度，默认是对年月日进行倒序排列，并对年缩写的情况进行排列，
+    指定为1时，就是在默认的情况下加上单个的年月日，指定为2时就是在默认的情况下加上只对月日进行排列
+    :return:可以直接用于排列组合的生日列表
+    """
+
     res_list = []
     for birthday in birthdays:
         if birthday == "":
             res_list.append(birthday)
             break
         else:
+
             temp_list = birthday.split("-")
+            full_list = temp_list
             full_year_fix_birthday = mix(temp_list)
             for i in temp_list:
                 if len(i) == 4:
                     year = i
                     temp_list.remove(year)
+                    if level == "2":
+                        for i in mix(temp_list):
+                            res_list.append(i)
                     temp_list.append(year[-2:])
                     simple_year_fix_birthday = mix(temp_list)
                     for i in simple_year_fix_birthday:
@@ -112,6 +131,9 @@ def split_birthday(birthdays):
 
             for i in full_year_fix_birthday:
                 res_list.append(i)
+            if level == "1":
+                for i in full_list:
+                    res_list.append(i)
 
     return res_list
 
@@ -179,19 +201,21 @@ def mixed_cycle_generate(profile):
     res_list.append(mix(mix_list))
     return res_list
 
-def generate_dictionary(outputpath,outputname,mode):
+def generate_dictionary(outputpath,outputname,mode,level):
     profile = get_infomation()
     start_time = time.time()
     res_list = []
+    if level == None:
+        level = 0
     if mode == "1":
-        profile["birthday"] = split_birthday(profile["birthday"])
-        profile["relative_birthday"] = split_birthday(profile["relative_birthday"])
+        profile["birthday"] = split_birthday(profile["birthday"],level)
+        profile["relative_birthday"] = split_birthday(profile["relative_birthday"],level)
         res_list = simple_cycle_generate(profile)
     elif mode == "2":
         res_list = mixed_cycle_generate(profile)
     elif mode == "3":
-        profile["birthday"] = split_birthday(profile["birthday"])
-        profile["relative_birthday"] = split_birthday(profile["relative_birthday"])
+        profile["birthday"] = split_birthday(profile["birthday"],level)
+        profile["relative_birthday"] = split_birthday(profile["relative_birthday"],level)
         res_list = mixed_cycle_generate(profile)
     else:
         res_list = simple_cycle_generate(profile)
@@ -230,7 +254,7 @@ def main():
     if args.version:
         show_version()
     elif args.generate:
-        generate_dictionary(args.outputpath,args.outputname,args.mode)
+        generate_dictionary(args.outputpath,args.outputname,args.mode,args.level)
     else:
         parser.print_help()
 
