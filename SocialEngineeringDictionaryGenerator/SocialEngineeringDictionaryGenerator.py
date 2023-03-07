@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
 """
 @author yumu
-@version 1.0.4
+@version 1.0.5
 """
 import argparse
 
-__version__ = "1.0.4"
+__version__ = "1.0.5"
 import os.path
 import time
 from pathlib import Path
 
 def get_parser():
+    """
+    设置命令行参数
+    :return:
+    """
     parser = argparse.ArgumentParser(description="Social Engineering Dictionary Generator")
     group = parser.add_argument_group()
     group.add_argument(
@@ -53,9 +57,18 @@ def get_parser():
     return parser
 
 def show_version():
+    """
+    显示版本信息
+    :return:
+    """
     print("\r\n	\033[1;31m[ 社工字典生成器 ]  " + __version__ + "\033[1;m\r\n")
 
 def check_whippletree(birthday:list)->bool:
+    """
+    检查输入的生日是否合法
+    :param birthday: 生日列表
+    :return:返回输入的生日是否合法
+    """
     if birthday[0] == "":
         return True
     for day in birthday:
@@ -64,6 +77,10 @@ def check_whippletree(birthday:list)->bool:
     return True
 
 def get_infomation():
+    """
+    与用户交互，获取信息
+    :return: 以字典的形式返回用户输入的信息
+    """
     profile = {}
     print("\r\n[+] 请按照提示输入相关信息")
     print("[+] 如果某一项信息您不想添加，可以直接敲空格跳过，某项信息想输入多组可以用空格分隔\r\n")
@@ -89,6 +106,11 @@ def get_infomation():
     return profile
 
 def mix(list:list):
+    """
+
+    :param list:要进行排列组合的列表
+    :return:排列组合后的结果
+    """
     if len(list) <= 1:
         return list
     res_list = []
@@ -138,6 +160,11 @@ def split_birthday(birthdays,level):
     return res_list
 
 def simple_cycle_generate(profile):
+    """
+    根据用户输入信息进行排列组合（一般情况）
+    :param profile: 用户输入的信息
+    :return: 排列组合的结果
+    """
     res_list = []
     for name in profile["victim_name"]:
         for nickname in profile["nickname"]:
@@ -170,6 +197,11 @@ def simple_cycle_generate(profile):
     return res_list
 
 def mixed_cycle_generate(profile):
+    """
+    根据用户输入信息进行排列组合（混编情况）
+    :param profile: 用户输入的信息
+    :return: 排列组合的结果
+    """
     res_list = []
     mix_list = []
     for name in profile["victim_name"]:
@@ -202,6 +234,14 @@ def mixed_cycle_generate(profile):
     return res_list
 
 def generate_dictionary(outputpath,outputname,mode,level):
+    """
+    生成字典
+    :param outputpath: 输出路径
+    :param outputname: 输出文件名
+    :param mode: 模式
+    :param level: 生日拆分粒度
+    :return:
+    """
     profile = get_infomation()
     start_time = time.time()
     res_list = []
