@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 @author yumu
-@version 1.0.5
+@version 1.0.6
 """
 import argparse
 
-__version__ = "1.0.5"
+__version__ = "1.0.6"
 import os.path
 import time
 from pathlib import Path
@@ -278,19 +278,26 @@ def generate_dictionary(outputpath,outputname,mode,level):
     else:
         full_path = default_path+outputname[0]
     length = 0
-    with open(full_path,"w") as f:
-        for list in res_list:
-            length += len(list)
-            for password in list:
-                f.write(password+"\n")
+    try:
+        with open(full_path,"w") as f:
+            for list in res_list:
+                length += len(list)
+                for password in list:
+                    f.write(password+"\n")
+        print("[+] 文件已经保存到 \033[1;31m" + os.path.abspath(full_path))
+        print("\033[1;m[+] 有 \033[1;31m" + str(length)+"\033[1;m 条")
+        print("[+] 用时 \033[1;31m" +str(time.time()-start_time) +"\033[1;m 秒")
+    except:
+        print("\033[1;31m[-] 文件写入失败，请检查路径和文件名以及是否有写入权限\033[1;m ")
 
-    print("[+] 文件已经保存到 \033[1;31m" + os.path.abspath(full_path))
-    print("\033[1;m[+] 有 \033[1;31m" + str(length)+"\033[1;m 条")
-    print("[+] 用时 \033[1;31m" +str(time.time()-start_time) +"\033[1;m 秒")
+def print_tool_info():
+    print("[ yumueat | https://github.com/yumueat]")
+    print("[ Social Engineering Dictionary Generator | https://github.com/yumueat/Penetration-test-toolkit]")
 
 def main():
     parser = get_parser()
     args = parser.parse_args()
+    print_tool_info()
     if args.version:
         show_version()
     elif args.generate:
