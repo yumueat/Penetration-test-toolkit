@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 @author yumu
-@version 1.0.6
+@version 1.0.7
 """
 import argparse
 
-__version__ = "1.0.6"
+__version__ = "1.0.7"
 import os.path
 import time
 from pathlib import Path
@@ -84,25 +84,25 @@ def get_infomation():
     profile = {}
     print("\r\n[+] 请按照提示输入相关信息")
     print("[+] 如果某一项信息您不想添加，可以直接敲空格跳过，某项信息想输入多组可以用空格分隔\r\n")
-    profile["victim_name"] = str(input(">姓名(拼音)").lower()).split(" ")
-    profile["nickname"] = str(input(">小名或别名(拼音)").lower()).split(" ")
-    birthday = str(input(">生日(请按照年-月-日的格式输入，如：2000-1-1或2000-01-01)")).lower().split(" ")
+    profile["victim_name"] = str(input(">姓名(拼音)")).split(" ")
+    profile["nickname"] = str(input(">小名或别名(拼音)")).split(" ")
+    birthday = str(input(">生日(请按照年-月-日的格式输入，如：2000-1-1或2000-01-01)")).split(" ")
     while not check_whippletree(birthday):
         print("\n\033[1;31m[-] 您输入的格式有误，请重新输入\033[1;m")
-        birthday = str(input(">生日(请按照年-月-日的格式输入，如：2000-1-1或2000-01-01)")).lower().split(" ")
+        birthday = str(input(">生日(请按照年-月-日的格式输入，如：2000-1-1或2000-01-01)")).split(" ")
     profile["birthday"] = birthday
 
-    profile["relative_name"] = str(input(">亲人姓名(父母公婆儿女七大姑八大姨的都可以写在这里，注意用空格分隔)").lower()).split(" ")
-    relative_birthday = str(input(">亲人生日(父母公婆儿女七大姑八大姨的都可以写在这里，注意用空格分隔)")).lower().split(" ")
+    profile["relative_name"] = str(input(">亲人姓名(父母公婆儿女七大姑八大姨的都可以写在这里，注意用空格分隔)")).split(" ")
+    relative_birthday = str(input(">亲人生日(父母公婆儿女七大姑八大姨的都可以写在这里，注意用空格分隔)")).split(" ")
     while not check_whippletree(relative_birthday):
         print("\n\033[1;31m[-] 您输入的格式有误，请重新输入\033[1;m")
-        relative_birthday = str(input(">亲人生日(父母公婆儿女七大姑八大姨的都可以写在这里，注意用空格分隔)")).lower().split(" ")
+        relative_birthday = str(input(">亲人生日(父母公婆儿女七大姑八大姨的都可以写在这里，注意用空格分隔)")).split(" ")
     profile["relative_birthday"] = relative_birthday
 
-    profile["pet"] = input(">宠物的名字 ").lower().split(" ")
-    profile["company"] = input(">公司或者学校 ").lower().split(" ")
+    profile["pet"] = input(">宠物的名字 ").split(" ")
+    profile["company"] = input(">公司或者学校 ").split(" ")
 
-    profile["words"] = input(">想要添加的关键字 ").lower().split(" ")
+    profile["words"] = input(">想要添加的关键字 ").split(" ")
     return profile
 
 def mix(list:list):
