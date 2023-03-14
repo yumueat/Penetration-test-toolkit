@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 @author yumu
-@version 1.0.3
+@version 1.0.4
 """
 import argparse
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 __mode2directory__ = {
     '1' : "./directory/dir_dic.txt"
 }
@@ -19,24 +19,30 @@ def scan(url,url_list,directory_list,mode,outputname,outputpath,quite):
     target_url = []
     if url_list != None:
         for url_file in url_list:
-            with open(url_file,"r") as f:
-                urls = f.readlines()
-            for single_url in urls:
-                single_url = single_url.strip()
-                if single_url[-1] == "/":
-                    single_url = single_url[:-1]
-                target_url.append(single_url)
+            try:
+                with open(url_file,"r") as f:
+                    urls = f.readlines()
+                for single_url in urls:
+                    single_url = single_url.strip()
+                    if single_url[-1] == "/":
+                        single_url = single_url[:-1]
+                    target_url.append(single_url)
+            except:
+                print(colorPrinter.wrong_text("[-] 指定的url文件读取失败，请检查路径和文件名以及是否有读取权限"))
 
     target_directory = []
     if directory_list != None:
-        for directory_file in directory_list:
-            with open(directory_file,"r") as f:
-                directorys = f.readlines()
-            for single_directory in directorys:
-                single_directory = single_directory.strip()
-                if single_directory[0] != "/":
-                    single_directory = "/"+single_directory
-                target_directory.append(single_directory)
+        try:
+            for directory_file in directory_list:
+                with open(directory_file,"r") as f:
+                    directorys = f.readlines()
+                for single_directory in directorys:
+                    single_directory = single_directory.strip()
+                    if single_directory[0] != "/":
+                        single_directory = "/"+single_directory
+                    target_directory.append(single_directory)
+        except:
+            print(colorPrinter.wrong_text("[-] 指定的字典文件读取失败，请检查路径和文件名以及是否有读取权限"))
 
     if url != None:
         for u in url:
@@ -47,13 +53,16 @@ def scan(url,url_list,directory_list,mode,outputname,outputpath,quite):
 
     if mode != None:
         for m in mode:
-            with open(__mode2directory__[m],"r") as f:
-                directorys = f.readlines()
-            for single_directory in directorys:
-                single_directory = single_directory.strip()
-                if single_directory[0] != "/":
-                    single_directory = "/" + single_directory
-                target_directory.append(single_directory)
+            try:
+                with open(__mode2directory__[m],"r") as f:
+                    directorys = f.readlines()
+                for single_directory in directorys:
+                    single_directory = single_directory.strip()
+                    if single_directory[0] != "/":
+                        single_directory = "/" + single_directory
+                    target_directory.append(single_directory)
+            except:
+                print(colorPrinter.wrong_text("[-] 默认字典读取失败，请检查默认字典是否被移动或无读取权限"))
 
     if len(target_url) == 0:
         print(colorPrinter.wrong_text("没有要扫描的url"))
