@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 @author yumu
-@version 1.0.2
+@version 1.0.3
 """
 import argparse
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 __mode2directory__ = {
     '1' : "./directory/dir_dic.txt"
 }
@@ -59,17 +59,46 @@ def scan(url,url_list,directory_list,mode,outputname,outputpath,quite):
         print(colorPrinter.wrong_text("没有要扫描的url"))
     if len(target_directory) == 0:
         print(colorPrinter.wrong_text("没有指定的字典"))
+    log_info = []
     for u in target_url:
+        print(colorPrinter.special_text("正在扫描"+u))
+        log_info.append(u+"的扫描结果如下")
         for dir in target_directory:
             resp = requests.get(u+dir)
             if quite:
                 if resp.status_code == 200:
                     print(colorPrinter.info_text(u + dir + "   " + str(resp.status_code)))
+                    log_info.append(u + dir + "   " + str(resp.status_code))
             else:
                 if resp.status_code == 200:
                     print(colorPrinter.info_text(u+dir + "   " + str(resp.status_code)))
+                    log_info.append(u+dir + "   " + str(resp.status_code))
                 else:
                     print(colorPrinter.warn_text(u+dir + "   " + str(resp.status_code)))
+
+    index = 1
+    default_path = "../result/WebsiteDirectoryScanner/"
+    if outputpath != None:
+        default_path = outputpath
+        if default_path[-1] != "/":
+            default_path += "/"
+
+    if not os.path.exists(default_path):
+        os.makedirs(default_path)
+
+    if outputname==None:
+        while(os.path.exists(default_path+str(index)+".txt")):
+            index +=1
+        full_path = default_path+str(index)+".txt"
+    else:
+        full_path = default_path+outputname[0]
+    try:
+        with open(full_path, "w") as f:
+            for log in log_info:
+                f.write(log + "\n")
+        print("[+] 文件已经保存到 " + colorPrinter.wrong_text(os.path.abspath(full_path)))
+    except:
+        print(colorPrinter.wrong_text("[-] 文件写入失败，请检查路径和文件名以及是否有写入权限"))
 
 def get_parser():
     """
