@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 """
 @author yumu
-@version 1.0.7
+@version 1.0.8
 """
 import argparse
 
-__version__ = "1.0.7"
-import os.path
+__version__ = "1.0.8"
 import time
-from pathlib import Path
+import os,sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils import *
 
+colorPrinter = ColorPrinter()
 def get_parser():
     """
     设置命令行参数
@@ -61,7 +63,7 @@ def show_version():
     显示版本信息
     :return:
     """
-    print("\r\n	\033[1;31m[ 社工字典生成器 ]  " + __version__ + "\033[1;m\r\n")
+    print(colorPrinter.wrong_text("[ 社工字典生成器 ]" + __version__))
 
 def check_whippletree(birthday:list)->bool:
     """
@@ -88,14 +90,14 @@ def get_infomation():
     profile["nickname"] = str(input(">小名或别名(拼音)")).split(" ")
     birthday = str(input(">生日(请按照年-月-日的格式输入，如：2000-1-1或2000-01-01)")).split(" ")
     while not check_whippletree(birthday):
-        print("\n\033[1;31m[-] 您输入的格式有误，请重新输入\033[1;m")
+        print(colorPrinter.wrong_text("[-] 您输入的格式有误，请重新输入"))
         birthday = str(input(">生日(请按照年-月-日的格式输入，如：2000-1-1或2000-01-01)")).split(" ")
     profile["birthday"] = birthday
 
     profile["relative_name"] = str(input(">亲人姓名(父母公婆儿女七大姑八大姨的都可以写在这里，注意用空格分隔)")).split(" ")
     relative_birthday = str(input(">亲人生日(父母公婆儿女七大姑八大姨的都可以写在这里，注意用空格分隔)")).split(" ")
     while not check_whippletree(relative_birthday):
-        print("\n\033[1;31m[-] 您输入的格式有误，请重新输入\033[1;m")
+        print(colorPrinter.wrong_text("[-] 您输入的格式有误，请重新输入"))
         relative_birthday = str(input(">亲人生日(父母公婆儿女七大姑八大姨的都可以写在这里，注意用空格分隔)")).split(" ")
     profile["relative_birthday"] = relative_birthday
 
@@ -284,11 +286,11 @@ def generate_dictionary(outputpath,outputname,mode,level):
                 length += len(list)
                 for password in list:
                     f.write(password+"\n")
-        print("[+] 文件已经保存到 \033[1;31m" + os.path.abspath(full_path))
-        print("\033[1;m[+] 有 \033[1;31m" + str(length)+"\033[1;m 条")
-        print("[+] 用时 \033[1;31m" +str(time.time()-start_time) +"\033[1;m 秒")
+        print("[+] 文件已经保存到 " + colorPrinter.wrong_text(os.path.abspath(full_path)))
+        print("[+] 有 " + colorPrinter.wrong_text(str(length))+" 条")
+        print("[+] 用时 "+colorPrinter.wrong_text(str(time.time()-start_time)) +" 秒")
     except:
-        print("\033[1;31m[-] 文件写入失败，请检查路径和文件名以及是否有写入权限\033[1;m ")
+        print(colorPrinter.wrong_text("[-] 文件写入失败，请检查路径和文件名以及是否有写入权限"))
 
 def print_tool_info():
     print("[ yumueat | https://github.com/yumueat]")
