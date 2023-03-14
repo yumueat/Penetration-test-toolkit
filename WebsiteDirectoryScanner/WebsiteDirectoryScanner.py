@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 @author yumu
-@version 1.0.0
+@version 1.0.1
 """
 import argparse
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __mode2directory__ = {
     '1' : "./directory/dir_dic.txt"
 }
@@ -15,7 +15,7 @@ from utils import *
 
 
 colorPrinter = ColorPrinter()
-def scan(url,url_list,directory_list,mode,outputname,outputpath):
+def scan(url,url_list,directory_list,mode,outputname,outputpath,quite):
     target_url = []
     if url_list != None:
         for url_file in url_list:
@@ -62,10 +62,14 @@ def scan(url,url_list,directory_list,mode,outputname,outputpath):
     for u in target_url:
         for dir in target_directory:
             resp = requests.get(u+dir)
-            if resp.status_code == 200:
-                print(colorPrinter.info_text(u+dir + "   " + str(resp.status_code)))
+            if quite:
+                if resp.status_code == 200:
+                    print(colorPrinter.info_text(u + dir + "   " + str(resp.status_code)))
             else:
-                print(colorPrinter.warn_text(u+dir + "   " + str(resp.status_code)))
+                if resp.status_code == 200:
+                    print(colorPrinter.info_text(u+dir + "   " + str(resp.status_code)))
+                else:
+                    print(colorPrinter.warn_text(u+dir + "   " + str(resp.status_code)))
 
 def get_parser():
     """
@@ -127,6 +131,12 @@ def get_parser():
         action="store",
         help="指定输出结果路径",
     )
+    group.add_argument(
+        "-q",
+        "--quite",
+        action="store_true",
+        help="指定为安静模式，只输出200的url"
+    )
 
 
     return parser
@@ -144,7 +154,7 @@ def main():
     if args.version:
         show_version()
     elif args.scan:
-        scan(args.url,args.list,args.directory,args.mode,args.outputname,args.outputpath)
+        scan(args.url,args.list,args.directory,args.mode,args.outputname,args.outputpath,args.quite)
     else:
         parser.print_help()
 
