@@ -73,7 +73,10 @@ def scan(url,url_list,directory_list,mode,outputname,outputpath,quite):
         print(colorPrinter.special_text("正在扫描"+u))
         log_info.append(u+"的扫描结果如下")
         for dir in target_directory:
-            resp = requests.get(u+dir)
+            try:
+                resp = requests.get(u+dir)
+            except:
+                continue
             if quite:
                 if resp.status_code == 200:
                     print(colorPrinter.info_text(u + dir + "   " + str(resp.status_code)))
