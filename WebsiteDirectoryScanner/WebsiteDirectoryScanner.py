@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 @author yumu
-@version 1.0.1
+@version 1.0.2
 """
 import argparse
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 __mode2directory__ = {
     '1' : "./directory/dir_dic.txt"
 }
@@ -146,11 +146,16 @@ def show_version():
     显示版本信息
     :return:
     """
-    print("\r\n	\033[1;31m[ 网站目录扫描器 ]  " + __version__ + "\033[1;m\r\n")
+    print(colorPrinter.wrong_text("[ 网站目录扫描器 ]  " + __version__))
+
+def print_tool_info():
+    print("[ yumueat | https://github.com/yumueat]")
+    print("[ Website Directory Scanner | https://github.com/yumueat/Penetration-test-toolkit]")
 
 def main():
     parser = get_parser()
     args = parser.parse_args()
+    print_tool_info()
     if args.version:
         show_version()
     elif args.scan:
