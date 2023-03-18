@@ -7,7 +7,7 @@ import argparse
 
 __version__ = "1.0.5"
 __mode2directory__ = {
-    '1': "./directory/dir_dic.txt"
+    '1': "./directory/DIR.txt"
 }
 
 import os, sys
