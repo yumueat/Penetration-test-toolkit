@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 @author yumu
-@version 1.0.5
+@version 1.0.6
 """
 import argparse
 
-__version__ = "1.0.5"
+__version__ = "1.0.6"
 __mode2directory__ = {
     '1': "./directory/DIR.txt"
 }
