@@ -18,7 +18,6 @@ from utils import *
 
 colorPrinter = ColorPrinter()
 
-
 def scan(url, url_list, directory_list, mode, outputname, outputpath, quite, timeout):
     target_url = []
     if url_list != None:
