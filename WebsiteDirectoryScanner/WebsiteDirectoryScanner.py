@@ -7,7 +7,12 @@ import argparse
 
 __version__ = "1.0.6"
 __mode2directory__ = {
-    '1': "./directory/DIR.txt"
+    '1': "./directory/ASP.txt",
+    '2': "./directory/ASPX.txt",
+    '3': "./directory/DIR.txt",
+    '4': "./directory/JSP.txt",
+    '5': "./directory/MDB.txt",
+    '6': "./directory/PHP.txt",
 }
 
 import os, sys
@@ -17,6 +22,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils import *
 
 colorPrinter = ColorPrinter()
+
 
 def scan(url, url_list, directory_list, mode, outputname, outputpath, quite, timeout):
     target_url = []
@@ -65,7 +71,7 @@ def scan(url, url_list, directory_list, mode, outputname, outputpath, quite, tim
                         single_directory = "/" + single_directory
                     target_directory.append(single_directory)
             except:
-                print(colorPrinter.wrong_text("[-] 默认字典读取失败，请检查默认字典是否被移动或无读取权限"))
+                print(colorPrinter.wrong_text("[-] 默认字典读取失败，请检查输入或默认字典是否被移动或无读取权限"))
 
     if len(target_url) == 0:
         print(colorPrinter.wrong_text("没有要扫描的url"))
@@ -77,11 +83,13 @@ def scan(url, url_list, directory_list, mode, outputname, outputpath, quite, tim
     if timeout == None:
         timeout = 5
     for u in target_url:
+        test_number = 0
         print(colorPrinter.special_text("正在扫描" + u))
         log_info.append(u + "的扫描结果如下")
         for dir in target_directory:
             try:
                 resp = requests.get(u + dir, timeout=int(timeout))
+                test_number += 1
             except:
                 continue
             if quite:
@@ -94,6 +102,7 @@ def scan(url, url_list, directory_list, mode, outputname, outputpath, quite, tim
                     log_info.append(u + dir + "   " + str(resp.status_code))
                 else:
                     print(colorPrinter.warn_text(u + dir + "   " + str(resp.status_code)))
+        print(colorPrinter.special_text(u+"共测试"+str(test_number)+"条"))
 
     index = 1
     default_path = "../result/WebsiteDirectoryScanner/"
