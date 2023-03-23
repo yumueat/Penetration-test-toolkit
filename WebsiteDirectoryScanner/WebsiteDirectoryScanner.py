@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 @author yumu
-@version 1.0.6
+@version 1.0.7
 """
 import argparse
 
-__version__ = "1.0.6"
+__version__ = "1.0.7"
 __mode2directory__ = {
     '1': "./directory/ASP.txt",
     '2': "./directory/ASPX.txt",
