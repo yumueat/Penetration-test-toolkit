@@ -25,6 +25,18 @@ colorPrinter = ColorPrinter()
 
 
 def scan(url, url_list, directory_list, mode, outputname, outputpath, quite, timeout):
+    """
+
+    :param url: 要扫描的url
+    :param url_list: 要扫描的url列表（文件）
+    :param directory_list: 字典列表（文件）
+    :param mode: 模式（对应内置字典）
+    :param outputname: 结果输出文件名
+    :param outputpath: 结果输出文件路径
+    :param quite: 是否使用安静模式
+    :param timeout: 超时时间
+    :return:
+    """
     target_url = []
     if url_list != None:
         for url_file in url_list:
@@ -213,6 +225,10 @@ def show_version():
 
 
 def print_tool_info():
+    """
+    输出工具信息
+    :return: 
+    """
     print("[ yumueat | https://github.com/yumueat]")
     print("[ Website Directory Scanner | https://github.com/yumueat/Penetration-test-toolkit]")
 
