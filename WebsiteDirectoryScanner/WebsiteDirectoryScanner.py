@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 @author yumu
-@version 1.0.7
+@version 1.0.8
 """
 import argparse
 
-__version__ = "1.0.7"
+__version__ = "1.0.8"
 __mode2directory__ = {
     '1': "./directory/ASP.txt",
     '2': "./directory/ASPX.txt",
@@ -105,11 +105,11 @@ def scan(url, url_list, directory_list, mode, outputname, outputpath, quite, tim
             except:
                 continue
             if quite:
-                if resp.status_code == 200:
+                if resp.status_code == 200 or resp.status_code == 403 or resp.status_code//100 == 3:
                     print(colorPrinter.info_text(u + dir + "   " + str(resp.status_code)))
                     log_info.append(u + dir + "   " + str(resp.status_code))
             else:
-                if resp.status_code == 200:
+                if resp.status_code == 200 or resp.status_code == 403 or resp.status_code//100 == 3:
                     print(colorPrinter.info_text(u + dir + "   " + str(resp.status_code)))
                     log_info.append(u + dir + "   " + str(resp.status_code))
                 else:
@@ -227,7 +227,7 @@ def show_version():
 def print_tool_info():
     """
     输出工具信息
-    :return: 
+    :return:
     """
     print("[ yumueat | https://github.com/yumueat]")
     print("[ Website Directory Scanner | https://github.com/yumueat/Penetration-test-toolkit]")
