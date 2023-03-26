@@ -4,7 +4,6 @@
 @version 1.0.8
 """
 import argparse
-
 __version__ = "1.0.8"
 __mode2directory__ = {
     '1': "./directory/ASP.txt",
@@ -88,6 +87,7 @@ def scan(url, url_list, directory_list, mode, outputname, outputpath, quite, tim
     if len(target_url) == 0:
         print(colorPrinter.wrong_text("没有要扫描的url"))
         return
+
     if len(target_directory) == 0:
         print(colorPrinter.wrong_text("没有指定的字典"))
         return
