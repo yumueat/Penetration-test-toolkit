@@ -23,7 +23,7 @@ from utils import *
 colorPrinter = ColorPrinter()
 
 
-def scan(url, url_list, directory_list, mode, outputname, outputpath, quite, timeout):
+def scan(url, url_list, directory_list, mode, outputname, outputpath, quite, timeout,add):
     """
 
     :param url: 要扫描的url
@@ -104,16 +104,28 @@ def scan(url, url_list, directory_list, mode, outputname, outputpath, quite, tim
                 test_number += 1
             except:
                 continue
-            if quite:
-                if resp.status_code == 200 or resp.status_code == 403 or resp.status_code//100 == 3:
-                    print(colorPrinter.info_text(u + dir + "   " + str(resp.status_code)))
-                    log_info.append(u + dir + "   " + str(resp.status_code))
-            else:
-                if resp.status_code == 200 or resp.status_code == 403 or resp.status_code//100 == 3:
-                    print(colorPrinter.info_text(u + dir + "   " + str(resp.status_code)))
-                    log_info.append(u + dir + "   " + str(resp.status_code))
+            if add:
+                if quite:
+                    if resp.status_code == 200 or resp.status_code == 403 or resp.status_code//100 == 3:
+                        print(colorPrinter.info_text(u + dir + "   " + str(resp.status_code)))
+                        log_info.append(u + dir + "   " + str(resp.status_code))
                 else:
-                    print(colorPrinter.warn_text(u + dir + "   " + str(resp.status_code)))
+                    if resp.status_code == 200 or resp.status_code == 403 or resp.status_code//100 == 3:
+                        print(colorPrinter.info_text(u + dir + "   " + str(resp.status_code)))
+                        log_info.append(u + dir + "   " + str(resp.status_code))
+                    else:
+                        print(colorPrinter.warn_text(u + dir + "   " + str(resp.status_code)))
+            else:
+                if quite:
+                    if resp.status_code == 200:
+                        print(colorPrinter.info_text(u + dir + "   " + str(resp.status_code)))
+                        log_info.append(u + dir + "   " + str(resp.status_code))
+                else:
+                    if resp.status_code == 200:
+                        print(colorPrinter.info_text(u + dir + "   " + str(resp.status_code)))
+                        log_info.append(u + dir + "   " + str(resp.status_code))
+                    else:
+                        print(colorPrinter.warn_text(u + dir + "   " + str(resp.status_code)))
         print(colorPrinter.special_text(u+"共测试"+str(test_number)+"条"))
 
     index = 1
@@ -213,6 +225,12 @@ def get_parser():
         action="store",
         help="指定超时时间"
     )
+    group.add_argument(
+        "-a",
+        "--add",
+        action="store_true",
+        help="探测403和3xx"
+    )
     return parser
 
 
@@ -240,7 +258,7 @@ def main():
     if args.version:
         show_version()
     elif args.scan:
-        scan(args.url, args.list, args.directory, args.mode, args.outputname, args.outputpath, args.quite, args.timeout)
+        scan(args.url, args.list, args.directory, args.mode, args.outputname, args.outputpath, args.quite, args.timeout,args.add)
     else:
         parser.print_help()
 
