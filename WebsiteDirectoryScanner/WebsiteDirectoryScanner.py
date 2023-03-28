@@ -4,6 +4,7 @@
 @version 1.0.8
 """
 import argparse
+
 __version__ = "1.0.8"
 __mode2directory__ = {
     '1': "./directory/ASP.txt",
@@ -23,7 +24,7 @@ from utils import *
 colorPrinter = ColorPrinter()
 
 
-def scan(url, url_list, directory_list, mode, outputname, outputpath, quite, timeout,add):
+def scan(url, url_list, directory_list, mode, outputname, outputpath, quite, timeout, add):
     """
 
     :param url: 要扫描的url
@@ -78,7 +79,7 @@ def scan(url, url_list, directory_list, mode, outputname, outputpath, quite, tim
                     directorys = f.readlines()
                 for single_directory in directorys:
                     single_directory = single_directory.strip()
-                    if single_directory[0] != "/":
+                    if len(single_directory)>0 and single_directory[0] != "/":
                         single_directory = "/" + single_directory
                     target_directory.append(single_directory)
             except:
@@ -106,11 +107,11 @@ def scan(url, url_list, directory_list, mode, outputname, outputpath, quite, tim
                 continue
             if add:
                 if quite:
-                    if resp.status_code == 200 or resp.status_code == 403 or resp.status_code//100 == 3:
+                    if resp.status_code == 200 or resp.status_code == 403 or resp.status_code // 100 == 3:
                         print(colorPrinter.info_text(u + dir + "   " + str(resp.status_code)))
                         log_info.append(u + dir + "   " + str(resp.status_code))
                 else:
-                    if resp.status_code == 200 or resp.status_code == 403 or resp.status_code//100 == 3:
+                    if resp.status_code == 200 or resp.status_code == 403 or resp.status_code // 100 == 3:
                         print(colorPrinter.info_text(u + dir + "   " + str(resp.status_code)))
                         log_info.append(u + dir + "   " + str(resp.status_code))
                     else:
@@ -126,7 +127,7 @@ def scan(url, url_list, directory_list, mode, outputname, outputpath, quite, tim
                         log_info.append(u + dir + "   " + str(resp.status_code))
                     else:
                         print(colorPrinter.warn_text(u + dir + "   " + str(resp.status_code)))
-        print(colorPrinter.special_text(u+"共测试"+str(test_number)+"条"))
+        print(colorPrinter.special_text(u + "共测试" + str(test_number) + "条"))
 
     index = 1
     default_path = "../result/WebsiteDirectoryScanner/"
@@ -254,11 +255,13 @@ def print_tool_info():
 def main():
     parser = get_parser()
     args = parser.parse_args()
+    # args = parser.parse_args(["-s","-l","./url.txt","-m","3","-q"])
     print_tool_info()
     if args.version:
         show_version()
     elif args.scan:
-        scan(args.url, args.list, args.directory, args.mode, args.outputname, args.outputpath, args.quite, args.timeout,args.add)
+        scan(args.url, args.list, args.directory, args.mode, args.outputname, args.outputpath, args.quite, args.timeout,
+             args.add)
     else:
         parser.print_help()
 
