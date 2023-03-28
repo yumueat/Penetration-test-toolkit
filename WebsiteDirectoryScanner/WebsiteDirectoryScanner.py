@@ -218,7 +218,7 @@ def get_parser():
         "-q",
         "--quite",
         action="store_true",
-        help="指定为安静模式，只输出200的url"
+        help="指定为安静模式，只输出200的url（如果指定探测403和3xx，则也会输出403和3xx的信息）"
     )
     group.add_argument(
         "-to",
