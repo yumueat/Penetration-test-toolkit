@@ -255,7 +255,6 @@ def print_tool_info():
 def main():
     parser = get_parser()
     args = parser.parse_args()
-    # args = parser.parse_args(["-s","-l","./url.txt","-m","3","-q"])
     print_tool_info()
     if args.version:
         show_version()
