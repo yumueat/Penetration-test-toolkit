@@ -84,3 +84,100 @@ options:
 + 有些密码要求大小写字母都要有，如果希望列出有大写字母存在的情况，那就在输入的时候就写大写字母(希望哪个字母是大写的就在输入的时候把哪个字母大写)，比如Password或PASSWORD
 + 有些密码要求要有特殊字符（数字同理），如果希望列出有特殊字符的情况，可以在最后的关键字那里加
 + 总之就是要灵活的利用这些功能
+
+# 网站目录扫描器
+
+## 版本
+
++ 1.0.0 初始版本
++ 1.0.1 增加安静模式
++ 1.0.2 补充输出信息
++ 1.0.3 增加指定输出文件名和路径功能
++ 1.0.4 增加异常处理
++ 1.0.5 增加设置超时时间功能
++ 1.0.6 增加了几个内置字典
++ 1.0.7 调整代码结构
++ 1.0.8 增加探测403 3xx的功能
+
+## 使用方法
+
+```
+用法: WebsiteDirectoryScanner.py [-h] [-v] [-s] [-u [URL ...]] [-l [LIST ...]] [-d [DIRECTORY ...]] [-m [MODE ...]] [-on OUTPUTNAME] [-op OUTPUTPATH] [-q] [-to TIMEOUT] [-a]
+
+Website Directory Scanner
+
+options:
+  -h, --help            show this help message and exit
+
+  -v, --version         显示版本信息
+  -s, --scan            开始扫描
+  -u [URL ...], --url [URL ...]
+                        指定要扫描的url
+  -l [LIST ...], --list [LIST ...]
+                        指定要扫描的url的列表(文件)
+  -d [DIRECTORY ...], --directory [DIRECTORY ...]
+                        指定扫描字典
+  -m [MODE ...], --mode [MODE ...]
+                        选择模式（内置字典）
+  -on OUTPUTNAME, --outputname OUTPUTNAME
+                        指定输出结果文件名
+  -op OUTPUTPATH, --outputpath OUTPUTPATH
+                        指定输出结果路径
+  -q, --quite           指定为安静模式，只输出200的url（如果指定探测403和3xx，则也会输出403和3xx的信息）
+  -to TIMEOUT, --timeout TIMEOUT
+                        指定超时时间
+  -a, --add             探测403和3xx
+```
+
+### 文件格式
+
+字典文件格式要求一行一个，示例如下
+
+```
+admin
+admin_index
+admin_admin
+index_admin
+GfEditor
+index
+EditBox
+default
+manage
+```
+
+url文件格式也要求一行一个，示例如下
+
+```
+http://127.0.0.1:5000
+http://127.0.0.1:5000
+http://127.0.0.1:5000
+```
+
+### 模式
+
+模式其实就是选择字典，不同模式对应不同字典，字典可以多选，模式与字典的对应关系如下，具体可以直接打开查看
+
+```
+1 ASP
+2 ASPX
+3 DIR
+4 JSP
+5 MDB
+6 PHP
+```
+
+### 举例
+
+```
+最简单版本，指定一个url，然后用默认的字典进行扫描
+python .\WebsiteDirectoryScanner.py -s -u http://127.0.0.1:5000 -m 3
+指定多个字典
+python .\WebsiteDirectoryScanner.py -s -u http://127.0.0.1:5000 -m 1 2 3
+指定一个url文件，然后用默认的字典进行扫描，并指定为安静模式
+python .\WebsiteDirectoryScanner.py -s -l ./url.txt -m 3 -q
+指定url文件和字典文件，并选择探测403和3xx，并开启安静模式
+python .\WebsiteDirectoryScanner.py -s -l ./url.txt -d ./simple_dic.txt -q -a
+```
+
+![image-20230328181315859](C:\Users\yumu\AppData\Roaming\Typora\typora-user-images\image-20230328181315859.png)
+
