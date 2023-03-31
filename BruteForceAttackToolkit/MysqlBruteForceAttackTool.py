@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 @author yumu
-@version 1.0.0
+@version 1.0.1
 """
 import argparse
 import os, sys
@@ -11,7 +11,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils import *
 
 colorPrinter = ColorPrinter()
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 
 def print_tool_info():
@@ -149,14 +149,14 @@ def brute(host, name_directory, password_directory, hostlist, quite, port):
                     try:
                         pymysql.connect(host=host, port=int(port), user=user, password=password)
                         print(colorPrinter.info_text("[+] " + user + " " + password + " 成功"))
-
+                        break
                     except:
                         continue
                 else:
                     try:
                         pymysql.connect(host=host, port=int(port), user=user, password=password)
                         print(colorPrinter.info_text("[+] " + user + " " + password + " 成功"))
-
+                        break
                     except:
                         print(colorPrinter.warn_text("[-] " + user + " " + password + " 失败"))
 
