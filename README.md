@@ -181,3 +181,54 @@ python .\WebsiteDirectoryScanner.py -s -l ./url.txt -d ./simple_dic.txt -q -a
 
 ![image-20230328181315859](C:\Users\yumu\AppData\Roaming\Typora\typora-user-images\image-20230328181315859.png)
 
+# 爆破工具包
+
+## Mysql爆破工具
+
+### 版本
+
++ 1.0.0 初始版本
+
+### 使用方法
+
+```
+用法: MysqlBruteForceAttackTool.py [-h] [-v] [-u URL] [-nd NAMEDIRECTORY] [-pd PASSWORDDIRECTORY] [-l LIST] [-q] [-b] [-p PORT]
+
+Mysql Brute Force Attack Tool
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+  -v, --version         显示版本信息
+  -u URL, --url URL     指定要爆破的主机
+  -nd NAMEDIRECTORY, --namedirectory NAMEDIRECTORY
+                        指定用户名爆破字典
+  -pd PASSWORDDIRECTORY, --passworddirectory PASSWORDDIRECTORY
+                        指定密码爆破字典
+  -l LIST, --list LIST  指定要爆破的主机列表文件
+  -q, --quite           安静模式，只输出成功的结果
+  -b, --brute           开始爆破
+  -p PORT, --port PORT  指定端口
+```
+
+#### 举例
+
+简单爆破一下 `python .\MysqlBruteForceAttackTool.py -b `
+
+如果没有指定端口、主机、用户名和密码字典，则会使用对应的默认值
+
+![image-20230329141609140](C:\Users\yumu\AppData\Roaming\Typora\typora-user-images\image-20230329141609140.png)
+
+全部指定` python .\MysqlBruteForceAttackTool.py -b -u 127.0.0.1 -p 3306 -nd ./simple_user.txt -pd ./simple_dic.txt`
+
+![image-20230329142517745](C:\Users\yumu\AppData\Roaming\Typora\typora-user-images\image-20230329142517745.png)
+
+安静模式 `python .\MysqlBruteForceAttackTool.py -b -q `
+
+![image-20230329142601596](C:\Users\yumu\AppData\Roaming\Typora\typora-user-images\image-20230329142601596.png)
+
+### 使用贴士
+
++ 如果主机，用户名，密码都指定了多个，那么再爆破的时候会按照主机--用户名--密码的顺序进行爆破，也就是说会先对一个主机进行爆破，然后去爆破其他的主机，在爆破一个主机的时候会先对一个用户名进行爆破，之后才回去爆破其他的用户名。
+
++ 关于主机和用户名的列表文件以及密码字典文件的格式，在前面的工具中提到过，这里就不再赘述
