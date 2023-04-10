@@ -75,6 +75,12 @@ def get_parser():
         action="store",
         help="指定端口"
     )
+    group.add_argument(
+        "-un",
+        "--username",
+        action="store_true",
+        help="指定要测试的用户名"
+    )
     return parser
 
 
