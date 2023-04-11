@@ -78,7 +78,7 @@ def get_parser():
     group.add_argument(
         "-un",
         "--username",
-        action="store_true",
+        action="store",
         help="指定要测试的用户名"
     )
     return parser
@@ -92,14 +92,17 @@ def show_version():
     print(colorPrinter.wrong_text("[ Mysql数据库爆破工具 ]" + __version__))
 
 
-def brute(host, name_directory, password_directory, hostlist, quite, port):
+def brute(host, name_directory, password_directory, hostlist, quite, port, username):
     target_host = []
     target_name = []
     target_password = []
-    if host != None:
+    if host is not None:
         target_host.append(host)
 
-    if name_directory != None:
+    if username is not None:
+        target_name.append(str(username).strip())
+
+    if name_directory is not None:
         try:
             with open(name_directory, "r") as f:
                 names = f.readlines()
@@ -108,7 +111,7 @@ def brute(host, name_directory, password_directory, hostlist, quite, port):
         except:
             print(colorPrinter.wrong_text("用户名字典读取失败，请检查路径和文件名以及是否有读取权限"))
 
-    if password_directory != None:
+    if password_directory is not None:
         try:
             with open(password_directory, "r") as f:
                 passwords = f.readlines()
@@ -117,7 +120,7 @@ def brute(host, name_directory, password_directory, hostlist, quite, port):
         except:
             print(colorPrinter.wrong_text("密码字典读取失败，请检查路径和文件名以及是否有读取权限"))
 
-    if hostlist != None:
+    if hostlist is not None:
         try:
             with open(hostlist, "r") as f:
                 hosts = f.readlines()
@@ -126,7 +129,7 @@ def brute(host, name_directory, password_directory, hostlist, quite, port):
         except:
             print(colorPrinter.wrong_text("主机文件读取失败，请检查路径和文件名以及是否有读取权限"))
 
-    if port == None:
+    if port is None:
         print(colorPrinter.special_text("未指定端口，使用默认3306端口"))
         port = 3306
 
@@ -176,7 +179,7 @@ def main():
         show_version()
     elif args.brute:
         brute(host=args.url, hostlist=args.list, name_directory=args.namedirectory,
-              password_directory=args.passworddirectory, quite=args.quite, port=args.port)
+              password_directory=args.passworddirectory, quite=args.quite, port=args.port, username=args.username)
     else:
         parser.print_help()
 
