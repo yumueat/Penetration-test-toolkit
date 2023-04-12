@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 @author yumu
-@version 1.0.1
+@version 1.0.2
 """
 import argparse
 import os, sys
@@ -11,7 +11,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils import *
 
 colorPrinter = ColorPrinter()
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 
 def print_tool_info():
