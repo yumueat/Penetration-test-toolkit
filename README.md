@@ -189,6 +189,7 @@ python .\WebsiteDirectoryScanner.py -s -l ./url.txt -d ./simple_dic.txt -q -a
 
 + 1.0.0 初始版本
 + 1.0.1 将逻辑更改为爆破成功立刻停止
++ 1.0.2 支持直接指定用户名
 
 ### 使用方法
 
