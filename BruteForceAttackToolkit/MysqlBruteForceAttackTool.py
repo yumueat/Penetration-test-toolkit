@@ -93,6 +93,17 @@ def show_version():
 
 
 def brute(host, name_directory, password_directory, hostlist, quite, port, username):
+    """
+    爆破函数
+    :param host: 主机名
+    :param name_directory: 用户名字典
+    :param password_directory: 密码字典
+    :param hostlist: 主机列表
+    :param quite: 安静模式
+    :param port: 端口
+    :param username: 用户名
+    :return:
+    """
     target_host = []
     target_name = []
     target_password = []
