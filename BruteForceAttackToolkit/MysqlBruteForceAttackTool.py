@@ -4,7 +4,9 @@
 @version 1.0.2
 """
 import argparse
-import os, sys
+import os
+import sys
+
 import pymysql
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
