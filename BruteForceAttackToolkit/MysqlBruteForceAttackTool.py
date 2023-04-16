@@ -15,7 +15,6 @@ from utils import *
 colorPrinter = ColorPrinter()
 __version__ = "1.0.2"
 
-
 def print_tool_info():
     print("[ yumueat | https://github.com/yumueat]")
     print("[ Mysql Brute Force Attack Tool | https://github.com/yumueat/Penetration-test-toolkit]")
