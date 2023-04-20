@@ -20,7 +20,6 @@ def print_tool_info():
     print("[ Mysql Brute Force Attack Tool | https://github.com/yumueat/Penetration-test-toolkit]")
 
 
-
 def get_parser():
     """
 
