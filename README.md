@@ -179,7 +179,7 @@ python .\WebsiteDirectoryScanner.py -s -l ./url.txt -m 3 -q
 python .\WebsiteDirectoryScanner.py -s -l ./url.txt -d ./simple_dic.txt -q -a
 ```
 
-![image-20230328181315859](.\img\3.png)
+![image-20230328181315859](./img/3.png)
 
 # 爆破工具包
 
