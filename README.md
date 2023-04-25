@@ -219,7 +219,7 @@ optional arguments:
 
 如果没有指定端口、主机、用户名和密码字典，则会使用对应的默认值
 
-![image-20230329141609140](.\img\image-20230329141609140.png)
+![image-20230329141609140](./img/image-20230329141609140.png)
 
 全部指定` python .\MysqlBruteForceAttackTool.py -b -u 127.0.0.1 -p 3306 -nd ./simple_user.txt -pd ./simple_dic.txt`
 
