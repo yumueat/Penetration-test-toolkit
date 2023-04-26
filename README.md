@@ -223,7 +223,7 @@ optional arguments:
 
 全部指定` python .\MysqlBruteForceAttackTool.py -b -u 127.0.0.1 -p 3306 -nd ./simple_user.txt -pd ./simple_dic.txt`
 
-![image-20230329142517745](.\img\image-20230329142517745.png)
+![image-20230329142517745](./img/image-20230329142517745.png)
 
 安静模式 `python .\MysqlBruteForceAttackTool.py -b -q `
 
