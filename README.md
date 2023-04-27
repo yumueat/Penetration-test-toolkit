@@ -227,7 +227,7 @@ optional arguments:
 
 安静模式 `python .\MysqlBruteForceAttackTool.py -b -q `
 
-![image-20230329142601596](.\img\image-20230329142601596.png)
+![image-20230329142601596](./img/image-20230329142601596.png)
 
 ### 使用贴士
 
